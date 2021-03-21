@@ -9,6 +9,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MUIDataTable from "mui-datatables";
 import { Typography } from "@material-ui/core";
 
+import readXlsxFile from "read-excel-file";
+
 const useStyles = makeStyles((theme) => ({
   container: {
     height: "100%",
@@ -45,18 +47,70 @@ const options = {
   pagination: false,
 };
 
+const columns = [
+  "",
+  "Montag",
+  "Dienstag",
+  "Mittwoch",
+  "Donnerstag",
+  "Freitag",
+  "Samstag",
+  "Sonntag",
+];
+
+const rows = [
+  "9:00",
+  "9:30",
+  "10:00",
+  "10:30",
+  "11:00",
+  "11:30",
+  "12:00",
+  "12:30",
+  "13:00",
+  "13:30",
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
+  "17:00",
+  "17:30",
+  "18:00",
+  "18:30",
+  "19:00",
+  "19:30",
+  "20:00",
+  "20:30",
+  "21:00",
+];
+
+const initResultTable = () => {
+  const initArray = new Array(rows.length)
+    .fill(0)
+    .map((v, index) =>
+      [rows[index]].concat(new Array(columns.length).fill(""))
+    );
+
+  console.log(initArray);
+
+  return initArray;
+};
+
 export const TablePage = (props) => {
+  //mock data for testing
+  /*const xls = readXlsxFile(e.target[0].files[0]).then((rows) => {
+    console.log(rows);
+    props.setTable(rows);
+  });*/
+
   const classes = useStyles();
 
-  const columns = [
-    "Montag",
-    "Dienstag",
-    "Mittwoch",
-    "Donnerstag",
-    "Freitag",
-    "Samstag",
-    "Sonntag",
-  ];
+  const initArray = initResultTable();
+
+  console.log("first column");
+  console.log(initArray[0]);
 
   console.log("Rendering table..");
   console.log(props.importedTable);
@@ -68,7 +122,7 @@ export const TablePage = (props) => {
         justify="space-between"
         className={classes.timetable}
         title={"Zeitplan"}
-        data={[]}
+        data={initArray}
         columns={columns}
         options={options}
       />

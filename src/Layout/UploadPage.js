@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 
 const UploadPage = (props) => {
   const history = useHistory();
-  const [filedata, setFiledata] = useState();
   const form = useRef(null);
 
   const onFileChange = (e) => {
@@ -16,8 +15,6 @@ const UploadPage = (props) => {
     const xls = readXlsxFile(e.target[0].files[0]).then((rows) => {
       console.log(rows);
       props.setTable(rows);
-      // `rows` is an array of rows
-      // each row being an array of cells.
     });
 
     history.push("/");
