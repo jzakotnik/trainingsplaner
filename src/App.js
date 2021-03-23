@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
   BrowserRouter as Router,
@@ -6,6 +6,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+
+import readXlsxFile from "read-excel-file";
 
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
@@ -17,6 +19,7 @@ import "./App.css";
 
 import TablePage from "./Layout/TablePage";
 import UploadPage from "./Layout/UploadPage";
+import Filter from "./Layout/Filter";
 
 const theme = createMuiTheme({
   palette: {
@@ -78,6 +81,25 @@ const rows = [
   "21:00",
 ];
 
+const createUserMapping = (rows) => {
+  const mapping = {};
+  const headerRow = rows[0];
+  rows.map((r) => {
+    const userID = createUserID(r[1], r[2]);
+    const rowMapping = {};
+    for (var i = 0; i < headerRow.length; i++) {
+      rowMapping[headerRow[i]] = r[i];
+    }
+    mapping[userID] = rowMapping;
+  });
+  return mapping;
+};
+
+//have the same ID for all user related data processing
+const createUserID = (u1, u2) => {
+  return u1.trim() + ", " + u2.trim();
+};
+
 const processTable = (template, input) => {
   const table = [...template];
   //console.log("Template table:");
@@ -101,31 +123,26 @@ const processTable = (template, input) => {
     //console.log(registrationRow);
     rows.map((time, index) => {
       const selectedDays = registrationRow[timeMapping[time]];
-      const name = registrationRow[1] + ", " + registrationRow[2];
+      const name = createUserID(registrationRow[1], registrationRow[2]);
       if (!!selectedDays) {
         //console.log(time + " - " + selectedDays + ": " + name);
         //parse days by comma
         const days = selectedDays.split(",");
         //insert name for each day and time into the table
-
         days.map((dayWithSpace) => {
           const day = dayWithSpace.trim();
           //console.log("Cell value to be updated: " + index + ", " + day);
-          //console.log(dayMapping[day]);
           if (day.trim() in dayMapping) {
-            //console.log(table[index][dayMapping[day]]);
             table[index][dayMapping[day]] = table[index][
               dayMapping[day]
-            ].concat(name + "\n");
-            //console.log("new cell entry:");
-            //console.log(table[index][dayMapping[day]]);
+            ].concat(name + " ; ");
           }
         });
       }
     });
   });
-  console.log("Processed result:");
-  console.log(table);
+  //console.log("Processed result:");
+  //console.log(table);
   return table;
 };
 
@@ -136,6 +153,42 @@ function App() {
       [rows[index]].concat(new Array(columns.length).fill(""))
     );
   const [outputTable, setOutputTable] = useState(initArray);
+  const [userMapping, setUserMapping] = useState();
+  const [years, setYears] = useState([]);
+
+  //to skip the load button for testing, auto-load a file from public folder
+  useEffect(() => {
+    const done = "";
+
+    fetch("/anmeldung.xlsx")
+      .then((response) => response.arrayBuffer())
+      .then((xls) => readXlsxFile(xls))
+      .then((rows) => {
+        //transform google table to table with days + times on axes and names in cell
+        const processedTable = processTable(initArray, rows);
+        setOutputTable(processedTable);
+        //create map of user IDs to all the other data
+        const mapping = createUserMapping(rows);
+        setUserMapping(mapping);
+        //get possible Jahrgänge
+        const skipHeader = rows.filter((r) => typeof r[3] == "number");
+        const years = skipHeader.map((r) => r[3]);
+        const uniqueyears = [...new Set(years)].sort((a, b) => a - b);
+
+        setYears(uniqueyears); //only unique years in the array
+        console.log("Loaded Excel: ");
+        console.log(rows);
+        console.log(uniqueyears);
+      });
+
+    return done;
+  }, []);
+
+  const filterYears = (filterYears) => {
+    console.log("Filter years triggered");
+    console.log(filterYears);
+    return true;
+  };
 
   const tableUpload = (t) => {
     //process excel table
@@ -161,7 +214,15 @@ function App() {
               exact
               path="/"
               render={(props) => (
-                <TablePage columns={columns} table={outputTable} {...props} />
+                <div>
+                  <Filter years={years} filterYears={filterYears} />
+                  <TablePage
+                    columns={columns}
+                    userMapping={userMapping}
+                    table={outputTable}
+                    {...props}
+                  />
+                </div>
               )}
             />
           </Switch>

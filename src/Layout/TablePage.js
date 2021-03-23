@@ -2,14 +2,12 @@ import React, { useState, useRef } from "react";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 
-import LinkIcon from "@material-ui/icons/Link";
-import CloudCircleIcon from "@material-ui/icons/CloudCircle";
-import IconButton from "@material-ui/core/IconButton";
-
 import MUIDataTable from "mui-datatables";
 import { Typography } from "@material-ui/core";
 
 import readXlsxFile from "read-excel-file";
+
+import ChipArray from "./ChipArray";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,8 +51,33 @@ const processTable = (xls, template) => {
 
 export const TablePage = (props) => {
   const classes = useStyles();
+  const userMapping = props.userMapping;
 
   console.log(props.table);
+  console.log(userMapping);
+
+  //copy columns to add some styling options from the table
+  const columns = [...props.columns];
+
+  const styledColumns = columns.map((v, i) => {
+    if (i > 0) {
+      //day columns start from second column
+      const styling = {
+        name: v,
+        options: {
+          filter: true,
+          sort: false,
+          customBodyRender: (value, tableMeta, updateValue) => (
+            <ChipArray names={value} userMapping={userMapping} />
+          ),
+        },
+      };
+      return styling;
+    } else {
+      return v;
+    }
+  });
+  console.log(styledColumns);
 
   return (
     <Grid container direction="column" alignItems="center">
@@ -64,7 +87,7 @@ export const TablePage = (props) => {
         className={classes.timetable}
         title={"Zeitplan"}
         data={props.table}
-        columns={props.columns}
+        columns={styledColumns}
         options={options}
       />
     </Grid>
