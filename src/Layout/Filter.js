@@ -31,7 +31,7 @@ const Filter = (props) => {
   return (
     <div className={classes.root}>
       <Typography id="range-slider" gutterBottom>
-        Jahrgänge
+        Jahrgänge {value[0]} - {value[1]}
       </Typography>
       <Slider
         value={value}

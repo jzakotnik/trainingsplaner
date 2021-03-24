@@ -152,6 +152,7 @@ function App() {
     .map((v, index) =>
       [rows[index]].concat(new Array(columns.length).fill(""))
     );
+  const [xlstable, setxlstable] = useState([]);
   const [outputTable, setOutputTable] = useState(initArray);
   const [userMapping, setUserMapping] = useState();
   const [years, setYears] = useState([]);
@@ -164,6 +165,8 @@ function App() {
       .then((response) => response.arrayBuffer())
       .then((xls) => readXlsxFile(xls))
       .then((rows) => {
+        const loadedexcel = rows;
+        setxlstable(loadedexcel);
         //transform google table to table with days + times on axes and names in cell
         const processedTable = processTable(initArray, rows);
         setOutputTable(processedTable);
@@ -176,17 +179,30 @@ function App() {
         const uniqueyears = [...new Set(years)].sort((a, b) => a - b);
 
         setYears(uniqueyears); //only unique years in the array
+      })
+      .then(() => {
         console.log("Loaded Excel: ");
-        console.log(rows);
-        console.log(uniqueyears);
+        console.log(xlstable);
+        console.log(outputTable);
       });
 
     return done;
   }, []);
 
   const filterYears = (filterYears) => {
+    const originaltable = [...xlstable];
+    const filteredtable = originaltable.filter((row) => {
+      if (typeof row[3] != "number") return row;
+      //this seems a header line
+      else if (row[3] >= filterYears[0] && row[3] <= filterYears[1]) return row;
+    });
+    const processedTable = processTable(initArray, filteredtable);
+    setOutputTable(processedTable);
+    //const processedTable = processTable(initArray, rows);
+    //setOutputTable(processedTable);
     console.log("Filter years triggered");
     console.log(filterYears);
+    console.log(filteredtable);
     return true;
   };
 
