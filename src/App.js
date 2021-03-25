@@ -15,6 +15,7 @@ import indigo from "@material-ui/core/colors/indigo";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
 import MaterialSwitch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import logo from "./logo.svg";
 import "./App.css";
@@ -279,11 +280,17 @@ function App() {
               path="/"
               render={(props) => (
                 <div>
-                  <MaterialSwitch
-                    checked={renderTarget}
-                    onChange={handleViewToggle}
-                    name="view"
+                  <FormControlLabel
+                    control={
+                      <MaterialSwitch
+                        checked={renderTarget}
+                        onChange={handleViewToggle}
+                        name="view"
+                      />
+                    }
+                    label="Anmeldungen / Namen Sicht"
                   />
+
                   {createView()}
                 </div>
               )}
