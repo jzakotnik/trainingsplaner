@@ -184,7 +184,7 @@ function App() {
   //to skip the load button for testing, auto-load a file from public folder
   useEffect(() => {
     const done = "";
-    tableUpload("/anmeldung.xlsx"); //for testing only
+    //tableUpload("/anmeldung2.xlsx"); //for testing only
     setRenderTarget(<ExcelPage xlstable={xlstable} />);
 
     return done;
@@ -208,9 +208,9 @@ function App() {
   };
 
   const tableUpload = (filename) => {
-    fetch(filename)
-      .then((response) => response.arrayBuffer())
-      .then((xls) => readXlsxFile(xls))
+    //fetch(filename)
+    //  .then((response) => response.arrayBuffer())
+    readXlsxFile(filename)
       .then((rows) => {
         const loadedexcel = rows;
         setxlstable(loadedexcel);
