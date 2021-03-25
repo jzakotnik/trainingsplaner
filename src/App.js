@@ -14,13 +14,16 @@ import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import indigo from "@material-ui/core/colors/indigo";
 import green from "@material-ui/core/colors/green";
 import red from "@material-ui/core/colors/red";
+import MaterialSwitch from "@material-ui/core/Switch";
 
 import logo from "./logo.svg";
 import "./App.css";
 
 import TablePage from "./Layout/TablePage";
+import ExcelPage from "./Layout/ExcelPage";
 import UploadPage from "./Layout/UploadPage";
 import Filter from "./Layout/Filter";
+import { Typography } from "@material-ui/core";
 
 const theme = createMuiTheme({
   palette: {
@@ -92,6 +95,7 @@ function App() {
   const [outputTable, setOutputTable] = useState(initArray);
   const [userMapping, setUserMapping] = useState({});
   const [years, setYears] = useState([]);
+  const [renderTarget, setRenderTarget] = useState(true);
 
   const createUserMapping = (rows) => {
     const mapping = {};
@@ -179,31 +183,8 @@ function App() {
   //to skip the load button for testing, auto-load a file from public folder
   useEffect(() => {
     const done = "";
-
-    fetch("/anmeldung.xlsx")
-      .then((response) => response.arrayBuffer())
-      .then((xls) => readXlsxFile(xls))
-      .then((rows) => {
-        const loadedexcel = rows;
-        setxlstable(loadedexcel);
-        //transform google table to table with days + times on axes and names in cell
-        const processedTable = processTable(initArray, rows);
-        setOutputTable(processedTable);
-        //create map of user IDs to all the other data
-        const mapping = createUserMapping(rows);
-        setUserMapping(mapping);
-        //get possible Jahrgänge
-        const skipHeader = rows.filter((r) => typeof r[3] == "number");
-        const years = skipHeader.map((r) => r[3]);
-        const uniqueyears = [...new Set(years)].sort((a, b) => a - b);
-
-        setYears(uniqueyears); //only unique years in the array
-      })
-      .then(() => {
-        console.log("Loaded Excel: ");
-        //console.log(xlstable);
-        //console.log(outputTable);
-      });
+    tableUpload("/anmeldung.xlsx"); //for testing only
+    setRenderTarget(<ExcelPage xlstable={xlstable} />);
 
     return done;
   }, []);
@@ -225,11 +206,54 @@ function App() {
     return true;
   };
 
-  const tableUpload = (t) => {
-    //process excel table
-    //console.log(t);
-    const processedTable = processTable(initArray, t);
-    setOutputTable(processedTable);
+  const tableUpload = (filename) => {
+    fetch(filename)
+      .then((response) => response.arrayBuffer())
+      .then((xls) => readXlsxFile(xls))
+      .then((rows) => {
+        const loadedexcel = rows;
+        setxlstable(loadedexcel);
+        //transform google table to table with days + times on axes and names in cell
+        const processedTable = processTable(initArray, rows);
+        setOutputTable(processedTable);
+        //create map of user IDs to all the other data
+        const mapping = createUserMapping(rows);
+        setUserMapping(mapping);
+        //get possible Jahrgänge
+        const skipHeader = rows.filter((r) => typeof r[3] == "number");
+        const years = skipHeader.map((r) => r[3]);
+        const uniqueyears = [...new Set(years)].sort((a, b) => a - b);
+
+        setYears(uniqueyears); //only unique years in the array
+      })
+      .then(() => {
+        console.log("Loaded Excel: ");
+      });
+  };
+
+  const handleViewToggle = (event) => {
+    renderTarget ? setRenderTarget(false) : setRenderTarget(true);
+  };
+
+  const viewExcel = (
+    <div>
+      <ExcelPage xlstable={xlstable} />
+    </div>
+  );
+  const viewTimetable = (
+    <div>
+      <Filter years={years} filterYears={filterYears} />
+      <TablePage
+        columns={columns}
+        userMapping={userMapping}
+        toggleUser={toggleUser}
+        table={outputTable}
+      />
+    </div>
+  );
+
+  const createView = () => {
+    return renderTarget ? viewExcel : viewTimetable;
   };
 
   return (
@@ -247,17 +271,20 @@ function App() {
             />
             <Route
               exact
+              path="/excel"
+              render={(props) => <ExcelPage xlstable={xlstable} {...props} />}
+            />
+            <Route
+              exact
               path="/"
               render={(props) => (
                 <div>
-                  <Filter years={years} filterYears={filterYears} />
-                  <TablePage
-                    columns={columns}
-                    userMapping={userMapping}
-                    toggleUser={toggleUser}
-                    table={outputTable}
-                    {...props}
+                  <MaterialSwitch
+                    checked={renderTarget}
+                    onChange={handleViewToggle}
+                    name="view"
                   />
+                  {createView()}
                 </div>
               )}
             />

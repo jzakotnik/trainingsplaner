@@ -9,7 +9,7 @@ export const ChipArray = (props) => {
     console.log("You clicked the Chip with name");
     console.log(e.target.outerText);
     const userID = e.target.outerText;
-    console.log(props.userMapping[userID]);
+    //console.log(props.userMapping[userID]);
     //console.log(userID in props.userMapping);
     props.toggleUser(userID);
 
@@ -25,7 +25,7 @@ export const ChipArray = (props) => {
     }
 
     if (!(v in userMapping)) {
-      console.log("Did not find user " + v);
+      //console.log("Did not find user " + v);
     }
     var color = "primary";
     var variant = "outlined";

@@ -13,10 +13,7 @@ const UploadPage = (props) => {
   const onFileUpload = (e) => {
     e.preventDefault();
     console.log("Path to be loaded: " + e.target[0].files[0]);
-    const xls = readXlsxFile(e.target[0].files[0]).then((rows) => {
-      console.log(rows);
-      props.setTable(rows);
-    });
+    props.setTable(e.target[0].files[0]);
 
     history.push("/");
   };
