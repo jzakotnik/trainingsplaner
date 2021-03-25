@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/trainingsplaner/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/trainingsplaner/static/js/main.7d417430.chunk.js",
-    "main.js.map": "/trainingsplaner/static/js/main.7d417430.chunk.js.map",
+    "main.js": "/trainingsplaner/static/js/main.b554fdfd.chunk.js",
+    "main.js.map": "/trainingsplaner/static/js/main.b554fdfd.chunk.js.map",
     "runtime-main.js": "/trainingsplaner/static/js/runtime-main.5d5f45b1.js",
     "runtime-main.js.map": "/trainingsplaner/static/js/runtime-main.5d5f45b1.js.map",
-    "static/js/2.803020b0.chunk.js": "/trainingsplaner/static/js/2.803020b0.chunk.js",
-    "static/js/2.803020b0.chunk.js.map": "/trainingsplaner/static/js/2.803020b0.chunk.js.map",
+    "static/js/2.1805720d.chunk.js": "/trainingsplaner/static/js/2.1805720d.chunk.js",
+    "static/js/2.1805720d.chunk.js.map": "/trainingsplaner/static/js/2.1805720d.chunk.js.map",
     "static/js/3.843bd775.chunk.js": "/trainingsplaner/static/js/3.843bd775.chunk.js",
     "static/js/3.843bd775.chunk.js.map": "/trainingsplaner/static/js/3.843bd775.chunk.js.map",
     "index.html": "/trainingsplaner/index.html",
     "static/css/main.8c8b27cf.chunk.css.map": "/trainingsplaner/static/css/main.8c8b27cf.chunk.css.map",
-    "static/js/2.803020b0.chunk.js.LICENSE.txt": "/trainingsplaner/static/js/2.803020b0.chunk.js.LICENSE.txt",
+    "static/js/2.1805720d.chunk.js.LICENSE.txt": "/trainingsplaner/static/js/2.1805720d.chunk.js.LICENSE.txt",
     "static/media/logo.6ce24c58.svg": "/trainingsplaner/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.5d5f45b1.js",
-    "static/js/2.803020b0.chunk.js",
+    "static/js/2.1805720d.chunk.js",
     "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.7d417430.chunk.js"
+    "static/js/main.b554fdfd.chunk.js"
   ]
 }
