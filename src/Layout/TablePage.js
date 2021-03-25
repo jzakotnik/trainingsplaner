@@ -53,8 +53,8 @@ export const TablePage = (props) => {
   const classes = useStyles();
   const userMapping = props.userMapping;
 
-  console.log(props.table);
-  console.log(userMapping);
+  //console.log(props.table);
+  //console.log(userMapping);
 
   //copy columns to add some styling options from the table
   const columns = [...props.columns];
@@ -68,7 +68,11 @@ export const TablePage = (props) => {
           filter: true,
           sort: false,
           customBodyRender: (value, tableMeta, updateValue) => (
-            <ChipArray names={value} userMapping={userMapping} />
+            <ChipArray
+              toggleUser={props.toggleUser}
+              names={value}
+              userMapping={userMapping}
+            />
           ),
         },
       };
@@ -77,7 +81,7 @@ export const TablePage = (props) => {
       return v;
     }
   });
-  console.log(styledColumns);
+  //console.log(styledColumns);
 
   return (
     <Grid container direction="column" alignItems="center">

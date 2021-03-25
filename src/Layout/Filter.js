@@ -9,12 +9,15 @@ import { useHistory } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     width: 600,
+    paddingTop: "24px",
+    paddingBottom: "12px",
+    paddingLeft: "12px",
   },
 });
 
 const Filter = (props) => {
   const classes = useStyles();
-  const [value, setValue] = useState([1980, 2010]);
+  const [value, setValue] = useState([1980, 2020]);
   const [marks, setMarks] = useState([]);
   const years = props.years;
 
