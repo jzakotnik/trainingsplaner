@@ -12,7 +12,8 @@ const UploadPage = (props) => {
 
   const onFileUpload = (e) => {
     e.preventDefault();
-    console.log("Path to be loaded: " + e.target[0].files[0]);
+    console.log("Path to be loaded: ");
+    console.log(e.target[0].files[0]);
     props.setTable(e.target[0].files[0]);
 
     history.push("/");

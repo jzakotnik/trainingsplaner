@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import readXlsxFile from "read-excel-file";
 
@@ -257,11 +252,18 @@ function App() {
     return renderTarget ? viewExcel : viewTimetable;
   };
 
+  const onFileUpload = (e) => {
+    e.preventDefault();
+    console.log("Path to be loaded: ");
+    console.log(e.target[0].files[0]);
+    tableUpload(e.target[0].files[0]);
+  };
+
   return (
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <Router>
+        <BrowserRouter basename={window.location.pathname || ""}>
           <Switch>
             <Route
               exact
@@ -270,16 +272,18 @@ function App() {
                 <UploadPage setTable={tableUpload} {...props} />
               )}
             />
-            <Route
-              exact
-              path="/excel"
-              render={(props) => <ExcelPage xlstable={xlstable} {...props} />}
-            />
+
             <Route
               exact
               path="/"
               render={(props) => (
                 <div>
+                  <div>
+                    <form onSubmit={onFileUpload}>
+                      <input type="file" />
+                      <input type="submit" name="Hochladen" />
+                    </form>
+                  </div>
                   <FormControlLabel
                     control={
                       <MaterialSwitch
@@ -296,7 +300,7 @@ function App() {
               )}
             />
           </Switch>
-        </Router>
+        </BrowserRouter>
       </ThemeProvider>
     </>
   );
