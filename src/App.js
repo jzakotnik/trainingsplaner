@@ -110,7 +110,7 @@ function App() {
 
   //have the same ID for all user related data processing
   const createUserID = (u1, u2) => {
-    return u1.trim() + ", " + u2.trim();
+    return u1.toString().trim() + ", " + u2.toString().trim(); //someone entered a number as name, dough
   };
 
   const processTable = (template, input) => {
