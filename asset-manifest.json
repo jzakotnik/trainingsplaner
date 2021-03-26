@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/trainingsplaner/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/trainingsplaner/static/js/main.b554fdfd.chunk.js",
-    "main.js.map": "/trainingsplaner/static/js/main.b554fdfd.chunk.js.map",
+    "main.js": "/trainingsplaner/static/js/main.5d79b443.chunk.js",
+    "main.js.map": "/trainingsplaner/static/js/main.5d79b443.chunk.js.map",
     "runtime-main.js": "/trainingsplaner/static/js/runtime-main.5d5f45b1.js",
     "runtime-main.js.map": "/trainingsplaner/static/js/runtime-main.5d5f45b1.js.map",
     "static/js/2.1805720d.chunk.js": "/trainingsplaner/static/js/2.1805720d.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.5d5f45b1.js",
     "static/js/2.1805720d.chunk.js",
     "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.b554fdfd.chunk.js"
+    "static/js/main.5d79b443.chunk.js"
   ]
 }
