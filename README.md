@@ -13,3 +13,5 @@ Die Daten werden via google Forms eingegeben. Ein Hauptproblem ist, dass die Zei
 
 ## Auswertung über eine statische React App
 
+Dieses Repository nutzt eine statische Webseite, welche das Excel laden kann und in für die Planung nützlichen Darstellungsformen darstellen kann. Dabei werden keine Daten auf einen Server geladen, sondern die Darstellung passiert komplett offline im Browser: https://jzakotnik.github.io/trainingsplaner/
+
