@@ -6,5 +6,10 @@ Um die Planung zu vereinfachen gibt es folgende digitalisierte Strecke.
 
 ## Eingabe der Daten via Google Forms
 
+Die Daten werden via google Forms eingegeben. Ein Hauptproblem ist, dass die Zeiten oft ein Grid sind, d.h. mögliche Tage auf der X-Achse und Zeiten auf der Y-Achse. In dem Excel Export ist aber jede Anmeldung eine Zeile, das heisst das Grid wird in recht viele unübersichtliche Spalten eingefügt. 
+
+![image](https://user-images.githubusercontent.com/551599/113604996-57cf1b80-9646-11eb-892b-669fd29618fc.png)
+
+
 ## Auswertung über eine statische React App
 
